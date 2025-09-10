@@ -42,7 +42,7 @@
             <span class="material-icons mr-2">bar_chart</span> Laporan
         </a>
         <a href="/guide" class="flex items-center px-3 py-2 rounded hover:bg-gray-700 transition">
-            <span class="material-icons mr-2">help_outline</span> Panduan Penggu
+            <span class="material-icons mr-2">help_outline</span> Panduan Penggunaan
         </a>
       
     </nav>
