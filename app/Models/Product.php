@@ -9,9 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'sku','name','category','unit','purchase_price','sell_price','min_stock','is_active','created_by',
-    ];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'purchase_price' => 'decimal:2',
