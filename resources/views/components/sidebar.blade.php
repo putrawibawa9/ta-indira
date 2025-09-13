@@ -35,15 +35,12 @@
             <span class="flex items-center"><span class="material-icons mr-2">category</span> Kategori</span>
             <span class="ml-2 bg-purple-600 text-xs px-2 py-0.5 rounded-full">{{ $sidebarTotalCategories ?? '-' }}</span>
         </a>
-        
-       
-     
         <a href="/reports" class="flex items-center px-3 py-2 rounded hover:bg-gray-700 transition">
             <span class="material-icons mr-2">bar_chart</span> Laporan
         </a>
         <a href="/guide" class="flex items-center px-3 py-2 rounded hover:bg-gray-700 transition">
             <span class="material-icons mr-2">help_outline</span> Panduan Penggunaan
         </a>
-      
+
     </nav>
 </aside>
