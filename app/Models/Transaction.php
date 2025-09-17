@@ -13,11 +13,20 @@ class Transaction extends Model
         'customer_id',
         'date',
         'total',
-        'notes',
+        'payment_method',
+        'dp',
+        'status',
     ];
 
+    // Relasi: transaksi punya customer
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    // Relasi: transaksi punya banyak item (barang)
+    public function items()
+    {
+        return $this->hasMany(TransactionItem::class);
     }
 }

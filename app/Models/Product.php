@@ -9,23 +9,24 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
-
-    protected $casts = [
-        'purchase_price' => 'decimal:2',
-        'sell_price' => 'decimal:2',
-        'is_active' => 'boolean',
+    protected $fillable = [
+        'name',
+        'description',
+        'stock',
+        'price',
+        'supplier_id',
+        'image',
     ];
 
-    public function creator() {
-        return $this->belongsTo(User::class, 'created_by');
+    // Relasi: Produk dimiliki oleh supplier
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
-    public function stocks() {
-        return $this->hasMany(ProductStock::class);
-    }
-
-    public function saleItems() {
-        return $this->hasMany(SaleItem::class);
+    // Relasi: Produk bisa ada di banyak transaksi
+    public function transactionItems()
+    {
+        return $this->hasMany(TransactionItem::class);
     }
 }

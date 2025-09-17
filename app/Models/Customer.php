@@ -10,18 +10,16 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'code','name','phone','address','notes','status','created_by',
+        'name',
+        'phone',
+        'email',
+        'address',
+        'notes',
+        'image',
     ];
 
-    public function creator() {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function sales() {
-        return $this->hasMany(Sale::class);
-    }
-
-    public function files() {
-        return $this->hasMany(CustomerFile::class);
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 }

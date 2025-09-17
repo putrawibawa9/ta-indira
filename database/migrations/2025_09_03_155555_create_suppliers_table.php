@@ -13,10 +13,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('address')->nullable();
-            $table->text('description')->nullable();
+            $table->text('address')->nullable();
+            $table->decimal('total_purchase', 15, 2)->default(0);
+            $table->text('notes')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
+
     }
 
     public function down(): void

@@ -1,68 +1,86 @@
-
 @extends('layouts.app')
-@section('title', 'Tambah Produk')
-@section('page-title', 'Tambah Produk')
+
+@section('title', 'Tambah Barang')
+@section('page-title', 'Tambah Barang')
+
 @section('content')
-<div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
-  <h1 class="text-xl font-bold mb-4">Tambah Produk</h1>
-  @if ($errors->any())
-    <div class="alert alert-danger mb-4">
-      <ul class="mb-0">
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
-  <form action="{{ route('products.store') }}" method="POST">
-    @csrf
-    <div class="mb-3">
-      <label for="sku" class="form-label">SKU</label>
-      <input type="text" name="sku" class="form-control @error('sku') is-invalid @enderror" value="{{ old('sku') }}" required>
-      @error('sku')<div class="invalid-feedback">{{ $message }}</div>@enderror
-    </div>
-    <div class="mb-3">
-      <label for="name" class="form-label">Nama</label>
-      <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required>
-      @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
-    </div>
-    <div class="mb-3">
-      <label for="category_id" class="form-label">Kategori</label>
-      <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
-        <option value="">-- Pilih Kategori --</option>
-        @foreach($categories as $category)
-          <option value="{{ $category->id }}" {{ old('category_id')==$category->id?'selected':'' }}>{{ $category->name }}</option>
-        @endforeach
-      </select>
-      @error('category_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
-    </div>
-    <div class="mb-3">
-      <label for="unit" class="form-label">Unit</label>
-      <select name="unit" class="form-control @error('unit') is-invalid @enderror">
-        @php $units = ['pcs','set','unit','cm','m']; @endphp
-        @foreach($units as $u)
-          <option value="{{ $u }}" {{ old('unit','pcs')===$u?'selected':'' }}>{{ $u }}</option>
-        @endforeach
-      </select>
-      @error('unit')<div class="invalid-feedback">{{ $message }}</div>@enderror
-    </div>
-    <div class="mb-3">
-      <label for="purchase_price" class="form-label">Harga Beli</label>
-      <input type="number" name="purchase_price" class="form-control @error('purchase_price') is-invalid @enderror" value="{{ old('purchase_price') }}" min="0" step="0.01">
-      @error('purchase_price')<div class="invalid-feedback">{{ $message }}</div>@enderror
-    </div>
-    <div class="mb-3">
-      <label for="sell_price" class="form-label">Harga Jual</label>
-      <input type="number" name="sell_price" class="form-control @error('sell_price') is-invalid @enderror" value="{{ old('sell_price') }}" min="0" step="0.01">
-      @error('sell_price')<div class="invalid-feedback">{{ $message }}</div>@enderror
-    </div>
-    <div class="mb-3">
-      <label for="min_stock" class="form-label">Stok Minimum</label>
-      <input type="number" name="min_stock" class="form-control @error('min_stock') is-invalid @enderror" value="{{ old('min_stock') }}" min="0" step="1">
-      @error('min_stock')<div class="invalid-feedback">{{ $message }}</div>@enderror
-    </div>
-    <button type="submit" class="btn btn-primary">Simpan</button>
-    <a href="{{ route('products.index') }}" class="btn btn-secondary">Batal</a>
-  </form>
+<div class="bg-white shadow rounded-lg p-6 max-w-3xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4">➕ Tambah Barang</h1>
+
+    <!-- Error Handling -->
+    @if ($errors->any())
+        <div class="mb-4 p-3 bg-red-100 text-red-700 rounded">
+            <ul class="list-disc pl-5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <!-- Form -->
+    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        @csrf
+
+        <!-- Nama Barang -->
+        <div>
+            <label for="name" class="block font-medium">Nama Barang</label>
+            <input type="text" id="name" name="name" value="{{ old('name') }}"
+                   class="w-full border rounded px-3 py-2 focus:ring focus:border-blue-300" required>
+        </div>
+
+        <!-- Deskripsi -->
+        <div>
+            <label for="description" class="block font-medium">Deskripsi</label>
+            <textarea id="description" name="description" rows="3"
+                      class="w-full border rounded px-3 py-2 focus:ring focus:border-blue-300">{{ old('description') }}</textarea>
+        </div>
+
+        <!-- Stok -->
+        <div>
+            <label for="stock" class="block font-medium">Stok</label>
+            <input type="number" id="stock" name="stock" value="{{ old('stock') }}"
+                   class="w-full border rounded px-3 py-2 focus:ring focus:border-blue-300" min="0" required>
+        </div>
+
+        <!-- Harga -->
+        <div>
+            <label for="price" class="block font-medium">Harga</label>
+            <input type="number" id="price" name="price" value="{{ old('price') }}"
+                   class="w-full border rounded px-3 py-2 focus:ring focus:border-blue-300" min="0" required>
+        </div>
+
+        <!-- Supplier -->
+        <div>
+            <label for="supplier_id" class="block font-medium">Supplier</label>
+            <select id="supplier_id" name="supplier_id" class="w-full border rounded px-3 py-2 focus:ring focus:border-blue-300">
+                <option value="">-- Pilih Supplier --</option>
+                @foreach($suppliers as $supplier)
+                    <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
+                        {{ $supplier->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Gambar -->
+        <div>
+            <label for="image" class="block font-medium">Gambar Barang</label>
+            <input type="file" id="image" name="image" accept="image/*"
+                   class="w-full border rounded px-3 py-2 focus:ring focus:border-blue-300">
+        </div>
+
+        <!-- Tombol -->
+        <div class="flex justify-end space-x-2">
+            <a href="{{ route('products.index') }}"
+               class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">
+                Batal
+            </a>
+            <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                Simpan
+            </button>
+        </div>
+    </form>
 </div>
 @endsection

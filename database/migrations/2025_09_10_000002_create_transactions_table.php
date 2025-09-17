@@ -10,12 +10,17 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->date('date');
-            $table->decimal('total', 16, 2);
-            $table->text('notes')->nullable();
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->date('date')->default(now());
+            $table->decimal('total', 15, 2)->default(0);
+            $table->enum('payment_method', ['tunai', 'kredit'])->default('tunai');
+            $table->decimal('dp', 15, 2)->default(0);
+            $table->enum('status', ['lunas', 'belum_lunas', 'batal'])->default('belum_lunas');
             $table->timestamps();
+
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');
         });
+
     }
 
     public function down(): void

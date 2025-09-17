@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
+            'contact' => '081234567890',
             'role' => 'admin',
             'email_verified_at' => now(),
             'password' => Hash::make('123123123'), // bcrypt otomatis
@@ -28,6 +29,7 @@ class UserSeeder extends Seeder
          DB::table('users')->insert([
             'name' => 'Pegawai',
             'email' => 'pegawai@gmail.com',
+            'contact' => '081234567891',
             'role' => 'pegawai',
             'email_verified_at' => now(),
             'password' => Hash::make('123123123'), // bcrypt otomatis

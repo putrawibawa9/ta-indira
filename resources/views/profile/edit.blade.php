@@ -1,58 +1,59 @@
 @extends('layouts.app')
-@section('title', 'Profil Saya')
-@section('page-title', 'Profil Saya')
+@section('title', 'Edit Profile')
+@section('page-title', 'Edit Profile')
+
 @section('content')
-<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+<div class="bg-white shadow rounded p-6 max-w-lg mx-auto">
     <h1 class="text-xl font-bold mb-4">Edit Profil</h1>
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    @if($errors->any())
+
+    @if ($errors->any())
         <div class="alert alert-danger mb-4">
-            <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
+            <ul>
+                @foreach ($errors->all() as $err)
+                    <li>{{ $err }}</li>
                 @endforeach
             </ul>
         </div>
     @endif
-    <form action="{{ route('profile.update') }}" method="POST">
+
+    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
         @csrf
-        @method('PATCH')
+
         <div class="mb-3">
-            <label for="name" class="form-label">Username</label>
-            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', auth()->user()->name) }}" required>
-            @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            <label for="name" class="form-label">Nama</label>
+            <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" class="form-control" required>
         </div>
+
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', auth()->user()->email) }}" required>
-            @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-    </form>
-</div>
 
-<div class="max-w-xl mx-auto bg-white p-6 rounded shadow mt-8">
-    <h2 class="text-lg font-bold mb-4">Ganti Password</h2>
-    <form action="{{ route('password.update') }}" method="POST">
-        @csrf
-        @method('PUT')
         <div class="mb-3">
-            <label for="current_password" class="form-label">Password Lama</label>
-            <input type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" required>
-            @error('current_password')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            <label for="contact" class="form-label">Kontak</label>
+            <input id="contact" type="text" name="contact" value="{{ old('contact', $user->contact) }}" class="form-control">
         </div>
+
         <div class="mb-3">
-            <label for="password" class="form-label">Password Baru</label>
-            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" required>
-            @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            <label for="password" class="form-label">Password (kosongkan jika tidak diubah)</label>
+            <input id="password" type="password" name="password" class="form-control">
         </div>
+
         <div class="mb-3">
-            <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
-            <input type="password" name="password_confirmation" class="form-control" required>
+            <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+            <input id="password_confirmation" type="password" name="password_confirmation" class="form-control">
         </div>
-        <button type="submit" class="btn btn-warning">Ganti Password</button>
+
+        <div class="mb-3">
+            <label for="profile_photo" class="form-label">Foto Profil</label>
+            <input type="file" name="profile_photo" class="form-control">
+            @if($user->profile_photo)
+                <img src="{{ asset('storage/'.$user->profile_photo) }}" class="mt-2 w-16 h-16 rounded-full">
+            @endif
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ route('profile.show') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection
